@@ -1,0 +1,62 @@
+#!C:\Users\ge84gac\QBM-anomaly-detection\testing\python.exe
+# -*- coding: utf-8 -*-
+"""
+Executable printing the circuit in tex/pdf format
+
+@copyright 2017  Bull S.A.S.  -  All rights reserved.\n
+           This is not Free or Open Source software.\n
+           Please contact Bull SAS for details about its license.\n
+           Bull - Rue Jean Jaurès - B.P. 68 - 78340 Les Clayes-sous-Bois
+"""
+import argparse
+
+import qat.core.printer as circprint
+from qat.core import Circuit
+
+
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(description='Prints a circuit'
+                                     ' in tex/pdf format.',
+                                     formatter_class=argparse.HelpFormatter)
+
+    parser.add_argument('circuit',
+                        type=str,
+                        metavar="FILE",
+                        help="Filename containing"
+                        " the AQASM circuit to print.")
+
+    parser.add_argument('output',
+                        type=str,
+                        metavar="OUTFILE",
+                        help="Output radical. The printer will"
+                        " generate OUTFILE.tex/OUTFILE.pdf files.")
+
+    parser.add_argument("--tex-only",
+                        action='store_true',
+                        dest="tex_only",
+                        help="Tells the printer to generate a"
+                        " .tex file only, without compiling it.")
+
+    parser.add_argument("--no-cleanup",
+                        action='store_true',
+                        dest="no_cleanup",
+                        help="The intermediate files (.aux, .log, .tex)"
+                        " will not be cleaned up.")
+
+    parser.add_argument("--gates-number",
+                        action='store_true',
+                        dest="gates_number",
+                        help="Displays a line numbering the gates.")
+
+    args = parser.parse_args()
+
+    # Reading the circuit file
+    circuit = Circuit.load(args.circuit)
+    circprint.toPdf(circuit, args.output, args.tex_only,
+                    args.no_cleanup, args.gates_number)
+
+
+# #---------------------------------------------------------------------------##
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,109 @@
+#!C:\Users\ge84gac\QBM-anomaly-detection\testing\python.exe
+# -*- coding : utf-8 -*-
+"""
+@authors Simon Martiel <simon.martiel@atos.net>
+@internal
+@copyright 2017-2019  Bull S.A.S.  -  All rights reserved.
+           This is not Free or Open Source software.
+           Please contact Bull SAS for details about its license.
+           Bull - Rue Jean Jaurès - B.P. 68 - 78340 Les Clayes-sous-Bois
+
+@file qat-circrun
+@brief A simple script to submit a quantum circuit to a QPU
+@namespace qat-circ
+"""
+
+import argparse
+import logging
+from qat.core.parserconf import JobParser, QPUParser, PluginParser,\
+        load_all_addargs, filter_arguments
+from qat.core import Circuit, Batch
+from qat.comm.qpu.QPU import submit_result
+from qat.comm.exceptions.ttypes import QPUException
+from qat.comm.shared.ttypes import ProcessingType
+
+_LOGGER = logging.getLogger("qat-batchrun")
+
+BASE_FORMAT = "state={}\tproba={}\tamp={}"
+
+
+def main():
+    """
+    The main execution of the script
+    """
+    init_parser = argparse.ArgumentParser(add_help=False)
+    # Adding default arguments for Jobs, QPUs, and Plugins
+    for cls_parser in [QPUParser, PluginParser]:
+        cls_parser.addargs(init_parser)
+
+    # Evaluate the arguments that need evaluation
+    # Adding script arguments
+    init_parser.add_argument("--output", "-o",
+                             type=str,
+                             dest="output",
+                             default=None,
+                             help="Specify where to dump the execution result"
+                                  " (stdout by default).")
+
+    init_parser.add_argument("--qpu",
+                             type=str,
+                             default=None,
+                             dest="qpu",
+                             metavar="QPU",
+                             help="Specify which QPU to use for the execution"
+                                  " QPU are referenced using a python namespace"
+                                  " pointing to an QPUHandler class (e.g qat.linalg:LinAlg).")
+
+    init_parser.add_argument("--plugin",
+                             action='append',
+                             dest='plugins',
+                             metavar='plugin_name',
+                             type=str,
+                             help="Adds the plugin to the plugin stack of the QPU."
+                                  " Plugins are referenced using a python namespace"
+                                  " pointing to an AbstractPlugin class (e.g qat.nnize:Nnizer).")
+
+    second_parser, qpu_class, plugin_list = load_all_addargs(init_parser)
+
+    second_parser.add_argument("batch",
+                               metavar="BATCH",
+                               type=str,
+                               help="Batch of jobs to run")
+    # Parsing for real this time
+    arguments = second_parser.parse_args()
+    arguments = vars(arguments)
+    # Loading the circuit:
+    batch = Batch.load(arguments["batch"])
+    # Instantiating Plugins:
+    plugins = []
+    for plugin_cls in plugin_list:
+        args = filter_arguments(plugin_cls, arguments)
+        plugins.append(plugin_cls(**args))
+    arguments["plugins"] = plugins
+    # Instantiating QPU:
+    qpu_args = filter_arguments(qpu_class, arguments)
+    if qpu_class is None:
+        print("No QPU specified, aborting run.")
+        second_parser.print_help()
+        return
+    qpu = qpu_class(**qpu_args)
+    result = qpu.submit(batch)
+    if arguments["output"] is None:
+        for i, result in enumerate(result):
+            print("Result of job #{}".format(i))
+            if batch.jobs[i].type == ProcessingType.SAMPLE:
+                for sample in result:
+                    print(BASE_FORMAT.format(str(sample.state),
+                                             sample.probability,
+                                             sample.amplitude))
+            elif batch.jobs[i].type == ProcessingType.OBSERVABLE:
+                print(result.value)
+    else:
+        output_path = arguments['output']
+        #for res in result:
+        #    res._unwrap()
+        result.dump(output_path)
+
+
+if __name__ == '__main__':
+    main()

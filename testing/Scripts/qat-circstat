@@ -1,0 +1,56 @@
+#!C:\Users\ge84gac\QBM-anomaly-detection\testing\python.exe
+# -*- coding : utf-8 -*-
+"""
+@authors Simon Martiel <simon.martiel@atos.net>
+@internal
+@copyright 2017  Bull S.A.S.  -  All rights reserved.
+           This is not Free or Open Source software.
+           Please contact Bull SAS for details about its license.
+           Bull - Rue Jean Jaures - B.P. 68 - 78340 Les Clayes-sous-Bois
+
+@file qat-circstat.py
+@brief Executable for command line circuit information printing
+@namespace qat.core
+"""
+import argparse
+
+from qat.core import Circuit
+from qat.core.util import statistics
+
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(description='Display information about a circuit.',
+                                     formatter_class=argparse.HelpFormatter)
+    parser.add_argument('circuit',
+                        type=str,
+                        metavar="FILE",
+                        help="Filename containning"
+                        " the circuit to inspect.")
+
+    args = parser.parse_args()
+
+    # Reading the circuit file
+    circuit = Circuit.load(args.circuit)
+    stat_map = statistics(circuit)
+
+    # Bases
+    base_display = 'Circuit of length {} over {} qubits ({} quantum gates)\n'
+    base_quantum_gates = '== Quantum gates ==\n{}\n'
+    base_other_op = '== Other ==\n{}'
+
+    formated_base = base_display.format(stat_map['size'],
+                                        circuit.nbqbits,
+                                        stat_map['gate_size'])
+    formated_gates = base_quantum_gates.format(
+        '\n'.join(k + ' : ' + str(nb) for k, nb in stat_map["gates"].items()))
+    formated_other = base_other_op.format(
+        "\n".join(k + " : " + str(nb)
+                  for k, nb in stat_map.items()
+                  if k not in ["gates", "size", "gate_size"]))
+    formated = formated_base + formated_gates + formated_other
+    print(formated)
+
+
+# #---------------------------------------------------------------------------##
+if __name__ == '__main__':
+    main()

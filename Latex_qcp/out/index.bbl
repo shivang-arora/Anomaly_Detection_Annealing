@@ -1,0 +1,177 @@
+\begin{thebibliography}{10}
+
+\bibitem{ackley1985learning}
+David~H Ackley, Geoffrey~E Hinton, and Terrence~J Sejnowski.
+\newblock A learning algorithm for boltzmann machines.
+\newblock {\em Cognitive science}, 9(1):147--169, 1985.
+
+\bibitem{Adachi15}
+Steve Adachi and Maxwell Henderson.
+\newblock Application of quantum annealing to training of deep neural networks.
+\newblock {\em arXiv preprint arXiv:1510.06356}, page~3, 10 2015.
+
+\bibitem{ajagekar2020quantum}
+Akshay Ajagekar and Fengqi You.
+\newblock Quantum computing assisted deep learning for fault detection and
+  diagnosis in industrial process systems.
+\newblock {\em arXiv preprint arXiv:2003.00264}, 2020.
+
+\bibitem{ajagekar2021quantum}
+Akshay Ajagekar and Fengqi You.
+\newblock Quantum computing based hybrid deep learning for fault diagnosis in
+  electrical power systems.
+\newblock {\em Applied Energy}, 303:117628, 2021.
+
+\bibitem{Amin15}
+Mohammad~H Amin.
+\newblock Searching for quantum speedup in quasistatic quantum annealers.
+\newblock {\em Physical Review A}, 92(5):052323, 2015.
+
+\bibitem{Amin18}
+Mohammad~H Amin, Evgeny Andriyash, Jason Rolfe, Bohdan Kulchytskyy, and Roger
+  Melko.
+\newblock Quantum boltzmann machine.
+\newblock {\em Physical Review X}, 8(2):021050, 2018.
+
+\bibitem{Benedetti16}
+Marcello Benedetti, John Realpe-G{\'o}mez, Rupak Biswas, and Alejandro
+  Perdomo-Ortiz.
+\newblock Estimation of effective temperatures in quantum annealers for
+  sampling applications: A case study with possible applications in deep
+  learning.
+\newblock {\em Physical Review A}, 94(2):022308, 2016.
+
+\bibitem{Benedetti17}
+Marcello Benedetti, John Realpe-G{\'o}mez, Rupak Biswas, and Alejandro
+  Perdomo-Ortiz.
+\newblock Quantum-assisted learning of hardware-embedded probabilistic
+  graphical models.
+\newblock {\em Physical Review X}, 7(4):041052, 2017.
+
+\bibitem{chandola2009anomaly}
+Varun Chandola, Arindam Banerjee, and Vipin Kumar.
+\newblock Anomaly detection: A survey.
+\newblock {\em ACM computing surveys (CSUR)}, 41(3):1--58, 2009.
+
+\bibitem{dixit2021training}
+Vivek Dixit, Raja Selvarajan, Tamer Aldwairi, Yaroslav Koshka, Mark~A Novotny,
+  Travis~S Humble, Muhammad~A Alam, and Sabre Kais.
+\newblock Training a quantum annealing based restricted boltzmann machine on
+  cybersecurity data.
+\newblock {\em IEEE Transactions on Emerging Topics in Computational
+  Intelligence}, 6(3):417--428, 2021.
+
+\bibitem{do2018energy}
+Kien Do, Truyen Tran, and Svetha Venkatesh.
+\newblock Energy-based anomaly detection for mixed data.
+\newblock {\em Knowledge and Information Systems}, 57(2):413--435, 2018.
+
+\bibitem{fischer2012introduction}
+Asja Fischer and Christian Igel.
+\newblock An introduction to restricted boltzmann machines.
+\newblock In {\em Iberoamerican congress on pattern recognition}, pages 14--36.
+  Springer, 2012.
+
+\bibitem{infinite}
+Robert Foster, Brian Weaver, and James Gattiker.
+\newblock Applications of quantum annealing in statistics.
+\newblock {\em arXiv preprint arXiv:1904.06819}, page~6, 04 2019.
+
+\bibitem{Hinton2007}
+G.~E. Hinton.
+\newblock {B}oltzmann machine.
+\newblock {\em Scholarpedia}, 2(5):1668, 2007.
+\newblock revision \#91076.
+
+\bibitem{hinton2012practical}
+Geoffrey~E Hinton.
+\newblock A practical guide to training restricted boltzmann machines.
+\newblock In {\em Neural networks: Tricks of the trade}, pages 599--619.
+  Springer, 2012.
+
+\bibitem{qc-homeister}
+Matthias Homeister.
+\newblock {\em Quantum Computing verstehen}.
+\newblock Springer Vieweg, Wiesbaden, 2022.
+
+\bibitem{Korenkevych16}
+Dmytro Korenkevych, Yanbo Xue, Zhengbing Bian, Fabian Chudak, William~G
+  Macready, Jason Rolfe, and Evgeny Andriyash.
+\newblock Benchmarking quantum hardware for training of fully visible boltzmann
+  machines.
+\newblock {\em arXiv preprint arXiv:1611.04528}, 2016.
+
+\bibitem{ki}
+Klaus Mainzer.
+\newblock {\em Künstliche Intelligenz – Wann übernehmen die Maschinen?}
+\newblock Springer Berlin, Heidelberg, 2019.
+
+\bibitem{qc-mainzer}
+Klaus Mainzer.
+\newblock {\em Quantencomputer}.
+\newblock Springer Berlin, Heidelberg, 2020.
+
+\bibitem{ml}
+Stephan Matzka.
+\newblock {\em Künstliche Intelligenz in den Ingenieurwissenschaften}.
+\newblock Springer Vieweg, Wiesbaden, 2021.
+
+\bibitem{quantum_hardware}
+Catherine McGeoch and Pau Farré.
+\newblock Advantage processor overview.
+\newblock
+  \url{https://www.dwavesys.com/media/3xvdipcn/14-1058a-a_advantage_processor_overview.pdf},
+  January 2022.
+\newblock Accessed: 2022-07-24.
+
+\bibitem{adiabatic}
+Catherine~C. McGeoch.
+\newblock {\em Adiabatic Quantum Computation and Quantum Annealing}.
+\newblock Springer Nature Switzerland AG 2014, 2014.
+
+\bibitem{patcha2007overview}
+Animesh Patcha and Jung-Min Park.
+\newblock An overview of anomaly detection techniques: Existing solutions and
+  latest technological trends.
+\newblock {\em Computer networks}, 51(12):3448--3470, 2007.
+
+\bibitem{moore}
+James Powell.
+\newblock The quantum limit to moore's law.
+\newblock {\em Proceedings of the IEEE}, 96:1247 -- 1248, 09 2008.
+
+\bibitem{rocutto2021quantum}
+Lorenzo Rocutto, Claudio Destri, and Enrico Prati.
+\newblock Quantum semantic learning by reverse annealing of an adiabatic
+  quantum computer.
+\newblock {\em Advanced Quantum Technologies}, 4(2):2000133, 2021.
+
+\bibitem{sato2021assessment}
+Takehito Sato, Masayuki Ohzeki, and Kazuyuki Tanaka.
+\newblock Assessment of image generation by quantum annealer.
+\newblock {\em Scientific reports}, 11(1):1--10, 2021.
+
+\bibitem{tharwat2020classification}
+Alaa Tharwat.
+\newblock Classification assessment methods.
+\newblock {\em Applied Computing and Informatics}, 2020.
+
+\bibitem{venegas2018cross}
+Salvador~E Venegas-Andraca, William Cruz-Santos, Catherine McGeoch, and Marco
+  Lanzagorta.
+\newblock A cross-disciplinary introduction to quantum annealing-based
+  algorithms.
+\newblock {\em Contemporary Physics}, 59(2):174--197, 2018.
+
+\bibitem{heuristic}
+Sheir Yarkoni, Elena Raponi, Sebastian Schmitt, and Thomas Bäck.
+\newblock Quantum annealing for industry applications: Introduction and review,
+  12 2021.
+
+\bibitem{zhai2016deep}
+Shuangfei Zhai, Yu~Cheng, Weining Lu, and Zhongfei Zhang.
+\newblock Deep structured energy based models for anomaly detection.
+\newblock In {\em International conference on machine learning}, pages
+  1100--1109. PMLR, 2016.
+
+\end{thebibliography}

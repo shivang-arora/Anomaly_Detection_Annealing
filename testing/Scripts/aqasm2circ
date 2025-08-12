@@ -1,0 +1,103 @@
+#!C:\Users\ge84gac\QBM-anomaly-detection\testing\python.exe
+# -*- coding : utf-8 -*-
+"""
+@authors Simon Martiel <simon.martiel@atos.net>
+@internal
+@copyright 2017-2019  Bull S.A.S.  -  All rights reserved.
+           This is not Free or Open Source software.
+           Please contact Bull SAS for details about its license.
+           Bull - Rue Jean Jaurès - B.P. 68 - 78340 Les Clayes-sous-Bois
+
+@file qat-lang/packaged/bin/aqasm2circ
+@brief An AQASM compiler in python
+"""
+import importlib
+
+from argparse import ArgumentParser
+from qat.lang.parser.compiler import compile_aqasm_string
+
+
+class UnknownModule(Exception):
+    """ Raised when some unknown python module is linked to the compiler """
+    def __init__(self, mod_name):
+        super(UnknownModule, self).__init__()
+        self.name = mod_name
+
+    def __str__(self):
+        return "Can't load module '{}'\nMaybe check your $PYTHONPATH?".format(self.name)
+
+
+def main():
+    """ The main compiler method """
+    parser = ArgumentParser(description='Compiles an AQASM file into'
+                                        ' a circuit file.')
+
+    parser.add_argument('input',
+                        type=str,
+                        metavar="AQASM_FILE",
+                        help="Filename containning the AQASM"
+                        " circuit to be compiled")
+
+    parser.add_argument('output',
+                        type=str,
+                        default=None,
+                        nargs='?',
+                        metavar="OUTFILE",
+                        help="Output file receiving the compiled circuit")
+
+    parser.add_argument('--full-matrices',
+                        action='store_true',
+                        dest="full_matrices",
+                        help="Tells the compiler to generate and include"
+                             " the full matrices of each gate. Notice that this can"
+                             " lead to larger .circ files and longer compilation time.")
+
+    parser.add_argument('--no-default-gateset',
+                        action='store_true',
+                        dest="optverbose",
+                        help="Excludes the pyAQASM default gate set from the initial scope."
+                             " In particular, gates such as"
+                             " H, CNOT, RX, RZ, etc will not be natively"
+                             " understood by the compiler."
+                             " Any gate used with this option should be declared in the header"
+                             " of the AQASM file.")
+
+    parser.add_argument('--no-inline',
+                        action='store_true',
+                        dest='no_inline',
+                        help='Prevents the inlining of linked gates.')
+
+    parser.add_argument('-L',
+                        default=[],
+                        action='append',
+                        metavar='MODULE',
+                        help="Links a python module to the compiler."
+                             " Modules are specified using their namespaces"
+                             " (e.g qat.lang.AQASM.qftarith) and must be loaded"
+                             " in the python path beforehand.")
+
+    # Parsing the command line arguments
+    args = parser.parse_args()
+
+    fname = args.input
+    output = args.output
+    if output is None:
+        output = fname + ".circ"
+    lib_list = args.L
+
+    # Loading the external "libraries" (i.e python modules)
+    modules = []
+    for mod_namespace in lib_list:
+        try:
+            modules.append(importlib.import_module(mod_namespace))
+        except ImportError:
+            raise UnknownModule(mod_namespace)
+
+    with open(fname, 'r') as file_in:
+        # Parsing the file and running the compiler
+        circuit = compile_aqasm_string(file_in.read(), args.full_matrices, args.no_inline, modules)
+        circuit.dump(output)
+
+
+if __name__ == '__main__':
+    main()

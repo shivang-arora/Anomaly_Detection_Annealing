@@ -1,0 +1,79 @@
+#!C:\Users\ge84gac\QBM-anomaly-detection\testing\python.exe
+# -*- coding : utf-8 -*-
+"""
+@authors Simon Martiel <simon.martiel@atos.net>
+@internal
+@copyright 2019  Bull S.A.S.  -  All rights reserved.
+           This is not Free or Open Source software.
+           Please contact Bull SAS for details about its license.
+           Bull - Rue Jean Jaures - B.P. 68 - 78340 Les Clayes-sous-Bois
+
+@file qat-circstat.py
+@brief Outputs a serialized result object in the stdout
+@namespace qat.core
+"""
+import argparse
+
+from qat.core import Result, BatchResult
+from qat.core.bits import DefaultRegister
+from qat.core.util import statistics
+
+
+BASE_FORMAT = "state={}\tproba={}\tamp={}"
+
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(description='Display a Result.',
+                                     formatter_class=argparse.HelpFormatter)
+    parser.add_argument('result',
+                        type=str,
+                        metavar="FILE",
+                        help="Filename containning"
+                        " the Result to display.")
+
+    parser.add_argument("-N", "--nbqbits",
+                        type=int,
+                        dest="nbqbits",
+                        help="Specify a number of qubits for state"
+                        " formatting purposes.")
+    parser.add_argument("--batch", "-b",
+                        action='store_true',
+                        dest="batch",
+                        help="Specify that the result is a BatchResult"
+                        " (i.e resulting from a call to qat-batchrun)")
+
+    args = parser.parse_args()
+    if args.batch:
+        results = BatchResult.load(args.result)
+        for i, result in enumerate(results.results):
+            print("Result", i)
+            result = Result.from_thrift(result)
+            if args.nbqbits is not None:
+                result.wrap_samples([DefaultRegister(start=0, length=args.nbqbits)])
+            else:
+                result.wrap_samples([])
+            if result.value is None:
+                for sample in result:
+                    print(BASE_FORMAT.format(str(sample.state),
+                                             sample.probability,
+                                             sample.amplitude))
+            else:
+                print(result.value)
+    else:
+        result = Result.load(args.result)
+        if args.nbqbits is not None:
+            result.wrap_samples([DefaultRegister(start=0, length=args.nbqbits)])
+        else:
+            result.wrap_samples([])
+        if result.value is None:
+            for sample in result:
+                print(BASE_FORMAT.format(str(sample.state),
+                                         sample.probability,
+                                         sample.amplitude))
+        else:
+            print(result.value)
+
+
+# #---------------------------------------------------------------------------##
+if __name__ == '__main__':
+    main()

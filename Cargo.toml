@@ -1,0 +1,27 @@
+[package]
+name = "ubm"
+version = "0.1.0"
+edition = "2021"
+description = "Implements a sampler for an unrestricted Boltzman Machine"
+readme = "README.md"
+repository = "https://gitlab.lrz.de/tholger/ubm"
+keywords = ["boltzmann", "machine learning", "quantum"]
+categories = ["command-line-utilities", "science"]
+publish = false
+
+[lib]
+# The name of the native library. This is the name which will be used in Python to import the
+# library (i.e. `import string_sum`). If you change this, you must also change the name of the
+# `#[pymodule]` in `rust_src/lib.rs`.
+name = "boltzmann_sampler"
+path = "rust_src/lib.rs"
+# "cdylib" is necessary to produce a shared library for Python to import from.
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.18.3", features = ["extension-module", "abi3-py38"] }
+numpy = { version = "0.18.0" }
+ndarray = {version = "0.15.6", features = ["rayon"]}
+ndarray-rand = "0.14.0"
+rand = "0.8.5"
+rand_chacha = "0.3.1"

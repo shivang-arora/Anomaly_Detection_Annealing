@@ -1,0 +1,46 @@
+#!C:\Users\ge84gac\QBM-anomaly-detection\testing\python.exe
+# -*- coding: utf-8 -*-
+import sys
+
+from argparse import ArgumentParser
+from qat.core import Circuit
+
+from qat.lang.parser.gates_ast import ASTCircuitBuilder
+
+
+
+_USAGE="circ2aqasm input_file [output_file]"
+
+
+def main():
+    parser = ArgumentParser(description='Uncompiles a circuit file into'
+                                        ' an AQASM file.')
+
+    parser.add_argument('input',
+                        type=str,
+                        metavar="CIRC_FILE",
+                        help="Filename containning the"
+                        " circuit to be uncompiled")
+
+    parser.add_argument('output',
+                        type=str,
+                        default=None,
+                        nargs='?',
+                        metavar="OUTFILE",
+                        help="Output file receiving the uncompiled circuit")
+
+    arguments = parser.parse_args() 
+    fname = arguments.input
+    outname = arguments.output
+    if outname is None:
+        outname = fname + ".aqasm"
+    circuit = Circuit.load(fname)
+    builder = ASTCircuitBuilder()
+    builder.import_circuit(circuit)
+    aqasm_string = builder.to_aqasm()
+    with open(outname, "w") as fout:
+        fout.write(aqasm_string)
+
+if __name__=='__main__':
+    main()
+

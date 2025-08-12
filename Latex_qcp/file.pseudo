@@ -1,0 +1,34 @@
+Eingabe: Datensatz mit Trainingsvektoren der Laenge length dim_input, learning_rate, beta_eff, anzahl_epochen, anzahl_hidden_neuronen und Konnektivitaet der QBM, anzahl_samples
+Ausgabe: Trainiertes qbm Modell mit gelernten weights und biases
+Start	
+	// intialisiere qbm mit dim_input visible_neuronen und anzahl_hidden_neurons hidden_neuronen, und entsprecheneden Verbindungen
+	qbm = QBM.initialize_structure(dim_input, anzahl_hidden_neuronen, konnektivitaet);
+	qbm.weights_und_biases_zufaellig_initialisieren();
+
+	for anzahl_epochen {
+		// teile den Datensatz in kleinere Gruppen an Punkten, die batches, auf,
+		// die jeweils ein Update der weights und biases verursachen sollen
+		for batch in Datensatz {
+			for datapunkt in batch {
+				// clamped phase
+				// lege Werte von visible_neuronen auf datenpunkt fest, indem weights, 
+				// wo der Wert 1 ist, auf verbundene hidden_units addiert werden
+				Qubo = erzeuge_qubo(qbm.weights, qbm.biases, beta_eff, datenpunkt)
+				samples_clamped = Quantum_annealer.get_samples(Qubo)
+				durchschnitte_bias_clamped = [durchschnitt(samples fuer dieses Neuron) fuer qbm.hidden_neuronen, datenpunkt fuer qbm.visible_neuronen]
+				durchschnitte_weight_clamped = [durchschnitt(samples_neuron_1 * samples_neuron_2) fuer 2 qbm.hidden_neuronen, 
+    					* datenpunkt) fuer ein verkuenpftes qbm.visible_neuron]
+				// unclamped phase
+				Qubo = erzeuge_qubo(qbm.weights, qbm.biases, beta_eff)
+				samples_unclamped = Quantum_annealer.get_samples(Qubo)
+				durchschnitte_bias_unclamped = [durchschnitt(samples fuer dieses Neuron)]
+				durchschnitte_weight_unclamped = [durchschnitt(samples_neuron_1 * samples_neuron_2)]
+			
+				// gradienten-Berechnung
+				gradient += durchschnitte_bias_clamped - durchschnitte_bias_unclamped, durchschnitte_weight_clamped - durchschnitte_weight_unclamped
+			}
+			gradient = gradient / batch_laenge
+			biases, weights -= learning_rate * gradient
+		}
+	}
+Ende
